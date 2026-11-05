@@ -12,13 +12,15 @@
     />
   </head>
   <body>
-    <div class="announcement-banner">
-      📢 Activity registration is open until the end of the month. Don't lose your spot!
-    </div>
+    <div id="announcement-banner" class="announcement-banner hidden" aria-live="polite"></div>
     <header>
       <h1>Mergington High School</h1>
       <h2>Extracurricular Activities</h2>
       <div id="user-controls">
+        <button id="manage-announcements" class="icon-button hidden" aria-haspopup="dialog">
+          <i data-lucide="megaphone" aria-hidden="true"></i>
+          <span>Announcements</span>
+        </button>
         <div id="user-status">
           <button id="login-button" class="icon-button">
             <span class="user-icon">👤</span>
@@ -137,6 +139,56 @@
       </div>
     </div>
 
-    <script src="app.js"></script>
+    <dialog id="announcements-dialog" aria-labelledby="announcements-title">
+      <div class="announcements-heading">
+        <div>
+          <p class="announcements-eyebrow">School noticeboard</p>
+          <h2 id="announcements-title">Announcements</h2>
+        </div>
+        <button id="close-announcements" class="announcement-icon" aria-label="Close announcements" title="Close announcements">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="announcements-workspace">
+        <div class="announcements-existing">
+          <div class="announcements-list-heading">
+            <h3>All announcements <span id="announcement-count"></span></h3>
+            <button id="new-announcement" class="announcement-icon" aria-label="New announcement" title="New announcement">
+              <i data-lucide="plus" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div id="announcement-list" aria-live="polite"></div>
+          <button id="retry-announcements" class="secondary-button hidden">Try again</button>
+        </div>
+        <form id="announcement-form" class="announcement-editor">
+          <h3 id="announcement-editor-title">New announcement</h3>
+          <div class="form-group">
+            <label for="announcement-message">Message <span class="required-mark">*</span></label>
+            <textarea id="announcement-message" rows="5" maxlength="1000" required placeholder="What should the school know?"></textarea>
+            <span id="announcement-character-count" class="field-note">0 / 1000</span>
+          </div>
+          <div class="announcement-dates">
+            <div class="form-group">
+              <label for="announcement-start">Start date <span class="field-note">(optional)</span></label>
+              <input id="announcement-start" type="date" aria-describedby="announcement-start-note" />
+              <span id="announcement-start-note" class="field-note">Blank means immediately</span>
+            </div>
+            <div class="form-group">
+              <label for="announcement-expiration">Expiration date <span class="required-mark">*</span></label>
+              <input id="announcement-expiration" type="date" required aria-describedby="announcement-date-note" />
+              <span id="announcement-date-note" class="field-note">Visible through this day (UTC)</span>
+            </div>
+          </div>
+          <div class="announcement-form-actions">
+            <button id="cancel-announcement" type="button" class="secondary-button">Cancel</button>
+            <button id="save-announcement" type="submit">Publish announcement</button>
+          </div>
+        </form>
+      </div>
+      <p id="announcement-feedback" role="status" aria-live="polite"></p>
+    </dialog>
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <script src="app.js" defer></script>
   </body>
 </html>
